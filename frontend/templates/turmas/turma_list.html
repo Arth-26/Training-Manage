@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/turmas/lista.css' %}">
+{% endblock imports %}
+
+{% block title %}Turmas | Lista{% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    <section class="lista-turmas">
+        <div class="acoes w-75">
+            <a href="{% url 'turma_create' %}" class='btn button-dark me-2'>
+                <i class="bi bi-plus-circle-fill mr-2"></i>          
+                Nova Turma
+            </a>
+            <a href='{% url "home" %}' class='btn button-dark'>
+                <i class="bi bi-arrow-left-circle-fill mr-2"></i>
+                Voltar
+            </a>
+        </div>
+        <div>
+            <h2 class='text-primary my-1 title-section'>
+                Lista De Turmas
+            </h2>
+        </div>
+        <div class="card w-75">
+            <div class='text-center my-2 w-100'>
+                {% include "partials/_pagination.html" %}
+            </div>
+            <div class="card-body">
+                <div class="card-text">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Turma</th>
+                                <th>Treinamento</th>
+                                <th>Inicio</th>
+                                <th>Fim</th>
+                                <th>Possui Recurso?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for turma in turmas %}
+                                <tr>
+                                    <td><a href="{% url 'turma_detail' turma.id%}" class='text-primary'>{{turma.nome}}</a></td>
+                                    <td>{{turma.treinamento_nome}}</td>
+                                    <td>{{turma.data_inicio}}</td>
+                                    <td>{{turma.data_fim}}</td>
+                                    <td>
+                                        {% if turma.recurso%}
+                                        <span class="text-success">SIM</span>
+                                        {% else %}
+                                        <span class="text-danger">NÃO</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan='5'>
+                                        Nenhuma turma cadastrada.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+            
+    </section>
+</main>
+{% endblock content %}

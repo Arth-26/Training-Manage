@@ -1,0 +1,65 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/treinamentos/detalhes.css' %}">
+{% endblock imports %}
+
+{% block title %} Treinamentos | Detalhes {% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    <section class="detalhes-treinamento">
+        <div class="acoes w-75">
+            <a href='{% url "treinamento_list" %}' class='btn button-dark'>
+                <i class="bi bi-arrow-left-circle-fill mr-3"></i>
+                Voltar
+            </a>
+        </div>
+        
+        <div class="card w-75">
+            <div class="card-body">
+                <div class="card-title text-center my-3">
+                    <h3>{{treinamento.nome}}</h3>
+                </div>
+                <div class="card-text d-flex justify-content-center flex-column gap-2">
+                    <div>
+                        <p class='text-muted text-center'>
+                            {{treinamento.descricao}}
+                        </p>
+                    </div>
+                    <div class="mt-1">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Turma</th>
+                                    <th>Início</th>
+                                    <th>Fim</th>
+                                    <th>Link Acesso</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for turma in turmas %}
+                                    <tr>
+                                        <td>{{turma.nome}}</td>
+                                        <td>{{turma.inicio}}</td>
+                                        <td>{{turma.fim}}</td>
+                                        <td><a href="{{turma.link_acesso}}">{{turma.link_acesso}}</a></td>
+                                    </tr>
+                                {%empty%}
+                                    <tr>
+                                        <td colspan='4'>Esse treinamento ainda não possui turmas.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+</main>
+{% endblock content %}

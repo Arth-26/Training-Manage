@@ -1,0 +1,67 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/alunos/cadastro.css' %}">
+{% endblock imports %}
+
+{% block title %}Alunos | Cadastro {% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    <section class="cadastro-aluno">
+        <div class="acoes w-75">
+            <a href='{% url "aluno_list" %}' class='btn button-dark'>
+                <i class="bi bi-arrow-left-circle-fill mr-3"></i>
+                Voltar
+            </a>
+        </div>
+        
+        <div class="card w-75">
+           <div class="card-body">
+                <div class="card-title">
+                    <h2>Cadastrar Novo Aluno</h2>
+                    <span class='text-muted'> Preencha os campos abaixo para adicionar um novo aluno.</span>
+                </div>
+                <div class="card-text">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="nome" class="form-label">Nome *</label>
+                                <input required type="text" class="form-control" id="nome" name='nome' placeholder="Digite seu nome">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="sobrenome" class="form-label">Sobrenome *</label>
+                                <input required type="text" class="form-control" id="sobrenome" name='sobrenome' placeholder="Digite seu sobrenome">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="telefone" class="form-label">Telefone *</label>
+                                <input required type="text" class="form-control" id="telefone" name='telefone' placeholder="Digite seu telefone">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email *</label>
+                                <input required type="text" class="form-control" id="email" name='email' placeholder="Digite seu email">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">Senha *</label>
+                                <input required type="password" class="form-control" id="password" name='password' placeholder="Digite sua senha">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn button-primary mt-4">
+                            Salvar Aluno
+                        </button>
+                    </form>
+                </div>
+           </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

@@ -1,0 +1,86 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock imports %}
+
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    {% if user.grupo == 'admin' %}
+        <div class="card section-admin">
+            <card class="card-title text-center">
+                <h3>Acessos</h3>
+            </card>
+            <card class="card-body">
+                <a href="{% url 'aluno_list' %}" class='btn button-primary'> 
+                    <i class="bi bi-person-lines-fill mr-3"></i>
+                    Alunos
+                </a>
+                <a href="{% url 'treinamento_list' %}" class='btn button-primary'> 
+                    <i class="bi bi-clipboard-fill mr-3"></i>
+                    Treinamentos
+                </a>
+                <a href="{% url 'turma_list' %}" class='btn button-primary'> 
+                    <i class="bi bi-book-fill mr-3"></i>
+                    Turmas
+                </a>
+            </card>
+        </div>
+    {% else %}
+        <section class="lista-turmas">
+            <div>
+                <h2 class='text-primary my-1 title-section'>
+                    Minhas Turmas
+                </h2>
+            </div>
+            <div class="row w-75">
+                {% for turma in turmas %}
+                <div class="col-md-6 mb-3 d-flex justify-content-center">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <a href="{% url 'turma_detail' turma.id %}" class='text-primary'><h2>{{turma.nome}}</h2></a>
+                                <span>{{turma.treinamento}}</span>
+                            </div>
+                            <div class="card-text">
+                                <div>
+                                    <i class="bi bi-calendar-event-fill me-2"></i>
+                                    <span class='text-muted'>
+                                        {{turma.inicio}} {{turma.fim}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-md-12 mb-3 d-flex justify-content-center">
+                    <div class="card">
+                        <div class="card-body py-2">
+                        <div class="card-text">
+                            <div class='text-center'>
+                                <h1 class='text-muted'>
+                                    <i class="bi bi-people-fill"></i>
+                                </h1>
+                            </div>
+                            <div class='mt-2 text-center'>
+                                <h5 class='text-muted'>
+                                    Você não está matriculado em nenhuma turma.
+                                </h5>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% include "partials/_pagination.html" %}
+            </div>
+        </section>
+    {% endif %}
+</main>
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/treinamentos/lista.css' %}">
+{% endblock imports %}
+
+{% block title %}Treinamentos | Lista{% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    <section class="lista-treinamentos">
+        <div class="acoes w-75">
+            <a href='{% url "treinamento_create" %}' class='btn button-dark me-2'>
+                <i class="bi bi-plus-circle-fill mr-2"></i>          
+                Novo Treinamento
+            </a>
+            <a href='{% url "home" %}' class='btn button-dark'>
+                <i class="bi bi-arrow-left-circle-fill mr-2"></i>
+                Voltar
+            </a>
+        </div>
+        <div>
+            <h2 class='text-primary my-1 title-section'>
+                Lista De Treinamentos
+            </h2>
+        </div>
+        <div class="row w-75">
+            {% for treinamento in treinamentos %}
+            <div class="col-md-6 mb-3 d-flex justify-content-center">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{% url 'treinamento_detail' treinamento.id %}" class='card-title link-treinamento'>
+                            <i class="bi bi-clipboard-fill me-2"></i>
+                            {{treinamento.nome}}
+                        </a>
+                        <div class="card-text d-flex flex-column gap-1 ms-2 mt-2">
+                            <span class='text-muted'>
+                                {{treinamento.descricao}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-md-12 mb-3 d-flex justify-content-center">
+                <div class="card">
+                    <div class="card-body py-2">
+                       <div class="card-text">
+                            <div class='text-center'>
+                                <h1 class='text-muted'>
+                                    <i class="bi bi-clipboard-fill"></i>
+                                </h1>
+                            </div>
+                            <div class='mt-2 text-center'>
+                                <h5 class='text-muted'>
+                                    Nenhum treinamento foi cadastrado!
+                                </h5>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% include "partials/_pagination.html" %}
+        </div>
+    </section>
+</main>
+{% endblock content %}

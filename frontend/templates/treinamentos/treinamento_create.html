@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/treinamentos/cadastro.css' %}">
+{% endblock imports %}
+
+{% block title %}Treinamentos | Cadastro {% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    <section class="cadastro-treinamentos">
+        <div class="acoes w-75">
+            <a href='{% url "treinamento_list" %}' class='btn button-dark'>
+                <i class="bi bi-arrow-left-circle-fill mr-3"></i>
+                Voltar
+            </a>
+        </div>
+        
+        <div class="card w-75">
+           <div class="card-body">
+                <div class="card-title">
+                    <h2>Cadastrar Novo Treinamento</h2>
+                    <span class='text-muted'> Preencha os campos abaixo para adicionar um novo treinamento.</span>
+                </div>
+                <div class="card-text">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="nome" class="form-label">Nome *</label>
+                                <input required type="text" class="form-control" id="nome" name='nome' placeholder="Digite o nome do treinamento">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="descricao" class="form-label">Descricao *</label>
+                                <textarea required class="form-control" id="descricao" name='descricao' placeholder="Digite a descricao do treinamento"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn button-primary mt-4">
+                            Salvar Treinamento
+                        </button>
+                    </form>
+                </div>
+           </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

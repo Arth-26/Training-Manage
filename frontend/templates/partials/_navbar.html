@@ -1,0 +1,18 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary px-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">Training Manage</a>
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle d-flex" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle fs-3"></i>
+          <div class='d-flex ms-2 mr-4 align-items-center'>
+              <h5 class="mb-0"><b>{{ user.username|title }}</b></h5>
+          </div>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Sair</a></li>
+        </ul>
+      </div>
+  </div>
+</nav>

@@ -1,0 +1,74 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/alunos/detalhes.css' %}">
+{% endblock imports %}
+
+{% block title %} Aluno | Perfil {% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    <section class="detalhes-aluno">
+        <div class="acoes w-75">
+            <a href='{% url "aluno_list" %}' class='btn button-dark'>
+                <i class="bi bi-arrow-left-circle-fill mr-3"></i>
+                Voltar
+            </a>
+        </div>
+        
+        <div class="card w-75">
+            <div class="card-body">
+                <div class="card-title text-center my-3">
+                    <h3>Informações Do Aluno</h3>
+                </div>
+                <div class="card-text d-flex justify-content-center flex-column gap-2">
+                    <div class='d-flex gap-4 justify-content-center'>
+                        <p class='text-muted'>
+                            <i class="bi bi-person-fill mr-3"></i>
+                            {{aluno.nome}} {{aluno.sobrenome}}
+                        </p>
+                        <p class='text-muted'>
+                            <i class="bi bi-envelope-fill mr-3"></i>
+                            {{aluno.email}}
+                        </p>
+                        <p class='text-muted'>
+                            <i class="bi bi-telephone-fill mr-3"></i>
+                            {{aluno.telefone}}
+                        </p>
+                    </div>
+                    <div class="mt-1">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Treinamento</th>
+                                    <th>Turma</th>
+                                    <th>Início</th>
+                                    <th>Fim</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for turma in turmas %}
+                                    <tr>
+                                        <td>{{turma.treinamento}}</td>
+                                        <td>{{turma.nome}}</td>
+                                        <td>{{turma.inicio}}</td>
+                                        <td>{{turma.fim}}</td>
+                                    </tr>
+                                {%empty%}
+                                    <tr>
+                                        <td colspan='4'>Este aluno não está matriculado em nenhuma turma.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+</main>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock imports %}
+
+{% block title %}Login{% endblock title %}
+
+
+{% block content %}
+<main class="container-main">
+    <section class='login-section'>
+        <form method="post">
+            {% csrf_token %}
+            <div class="header-form">
+                <h2>Training Manager</h2>
+                <h6 class='text-muted text-center'>Bem vindo de volta! Faça login para continuar</h6>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" name='email' placeholder="Digite seu email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="password" name='password' placeholder="Digite sua senha" required>
+            </div>
+            <button type="submit" class="btn button-primary w-100 mt-3">
+                <i class="bi bi-box-arrow-in-right mr-2"></i>
+                Entrar
+            </button>
+        </form>
+    </section>
+</main>
+{% endblock content %}

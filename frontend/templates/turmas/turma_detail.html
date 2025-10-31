@@ -1,0 +1,148 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/turmas/detalhes.css' %}">
+{% endblock imports %}
+
+{% block title %} Turma | Detalhes {% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    <section class="detalhes-turma">
+        <div class="acoes w-75">
+            <a {% if user.grupo == 'admin' %}href='{% url "turma_list" %}'{%else%}href='{% url "home" %}'{%endif%} class='btn button-dark'>
+                <i class="bi bi-arrow-left-circle-fill mr-3"></i>
+                Voltar
+            </a>
+        </div>
+        
+        <div class="card w-75">
+            <div class="card-body px-4">
+                <div class="card-title my-3">
+                    <h3>Detalhes da Turma</h3>
+                </div>
+                <div class="card-text d-flex justify-content-center flex-column">
+                    <h4 class='mb-3'>
+                        {{turma.nome}}
+                    </h4>
+                    <h5 class='text-muted mb-3'>
+                        {{turma.treinamento_nome}}
+                    </h5>
+                    <p>
+                        <i class="bi bi-calendar-event-fill me-2"></i>
+                        {{turma.data_inicio}} - {{turma.data_fim}}
+                    </p>
+                    <a href="{{turma.link_acesso}}">
+                        <i class="bi bi-link-45deg me-2"></i>
+                        <span class='text-primary'>
+                            Link de Acesso
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card w-75">
+            <div class="card-body px-4">
+                <div class="card-title my-3">
+                    <h3>Recurso da Turma</h3>
+                </div>
+                <div class="card-text">
+                    {% if turma.recurso %}
+                        {% if turma.recurso.bloqueia_acesso %}
+                            <div class'd-flex justify-content-center'>
+                                <span class='text-muted'>
+                                    Você não possui mais acesso a este conteúdo.
+                                </span>
+                            </div>
+                        {% elif turma.recurso.tipo == 'zip' or turma.recurso.tipo == 'pdf'%}
+                            <div class='arquivos-leitura'>
+                                <div class='d-flex align-items-center'>
+                                    <i class="bi bi-file-text-fill text-primary me-2"></i>
+                                    {{turma.recurso.nome}}
+                                </div>
+                                <div>
+                                    <a href="{% url 'baixar_recurso' turma.id %}" class='btn' download>
+                                        <i class="bi bi-download text-primary"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        {% else %}
+                        <div class="arquivo-video">
+                            <div class='w-100 d-flex justify-content-end'>
+                                <a href="{% url 'baixar_recurso' turma.id %}" class='btn' download>
+                                    <i class="bi bi-download text-primary"></i>
+                                </a>
+                            </div>
+                            <div class="video-player">
+                                <video src="http://localhost:8000{{turma.recurso.link}}" class='w-100' controls></video>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        {% if user.grupo == 'admin' %}
+                        <div>
+                            <a href="{% url 'recurso_create' turma.id %}" class='btn button-primary'>
+                                <i class="bi bi-download me-2"></i> Cadastrar Recurso
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class'd-flex justify-content-center'>
+                            <span class='text-muted'>
+                                Essa turma não possui recurso
+                            </span>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card w-75">
+            <div class="card-body px-4">
+                <div class="card-title my-3 d-flex justify-content-between">
+                    <div>
+                        <h3>Alunos Matriculados</h3>
+                        <p class='text-muted'> Lista de alunos cadastrados a esta turma</p>
+                    </div>
+                    {% if user.grupo == 'admin' %}
+                        <div class='d-flex align-items-center'>
+                            <a href="{% url 'aluno_matricular' turma.id%}" class='btn button-dark'>
+                                <i class="bi bi-plus-circle-fill mr-2"></i>   
+                                Matricular Alunos
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-text">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for aluno in turma.alunos %}
+                                <tr>
+                                    <td>{{aluno.nome}} {{aluno.sobrenome}}</td>
+                                    <td>{{aluno.email}}</td>
+                                    <td>{{aluno.telefone}}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan='3'>
+                                        Nenhum aluno cadastrado.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/turmas/cadastro.css' %}">
+{% endblock imports %}
+
+{% block title %}Turmas | Cadastro {% endblock title %}
+
+
+{% block content %}
+{% include "partials/_navbar.html" %}
+<main class="container-main">
+    <section class="cadastro-turmas">
+        <div class="acoes w-75">
+            <a href='{% url "turma_list" %}' class='btn button-dark'>
+                <i class="bi bi-arrow-left-circle-fill mr-3"></i>
+                Voltar
+            </a>
+        </div>
+        
+        <div class="card w-75">
+           <div class="card-body">
+                <div class="card-title">
+                    <h2>Cadastrar Nova Turma</h2>
+                    <span class='text-muted'> Preencha os campos abaixo para adicionar uma nova turma.</span>
+                </div>
+                <div class="card-text">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="treinamento" class="form-label">Treinamento *</label>
+                                <select name="treinamento" id="treinamento" class="form-select" required>
+                                    <option value=""> --------- </option>
+                                    {% for treinamento in treinamentos %}
+                                        <option value="{{treinamento.id}}">{{treinamento.nome}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="nome" class="form-label">Nome Da Turma *</label>
+                                <input required class="form-control" id="nome" name='nome' placeholder="Digite o nome da turma">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="data_inicio" class="form-label">Data de Início *</label>
+                                <input required type='date' class="form-control" id="data_inicio" name='data_inicio'>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="data_fim" class="form-label">Data de Termino *</label>
+                                <input required type='date' class="form-control" id="data_fim" name='data_fim'>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="link" class="form-label">Link De Acesso *</label>
+                                <input required class="form-control" id="link" name='link_acesso' placeholder="https://meet.google.com/">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn button-primary mt-4">
+                            Salvar Turma
+                        </button>
+                    </form>
+                </div>
+           </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}
